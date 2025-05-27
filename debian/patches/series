@@ -1,0 +1,4 @@
+2001_fix-bin-sh-path-in-shebang.patch
+0001_pluma-plugins-engine-fix-memory-leak.patch
+0002_Fix-double-activation-of-extensions.patch
+0003_Fix-out-of-bounds-write.patch

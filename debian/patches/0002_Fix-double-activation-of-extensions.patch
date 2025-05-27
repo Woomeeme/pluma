@@ -1,0 +1,29 @@
+From e1d9f852ab4f9b1c162385f5aac1b598f563b17a Mon Sep 17 00:00:00 2001
+From: mbkma <johannes.unruh@fau.de>
+Date: Tue, 23 Nov 2021 22:40:26 +0100
+Subject: [PATCH 2/3] Fix double activation of extensions
+
+Signed-off-by: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+---
+ pluma/pluma-view.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+diff --git a/pluma/pluma-view.c b/pluma/pluma-view.c
+index 4a353e1..672cca8 100644
+--- a/pluma/pluma-view.c
++++ b/pluma/pluma-view.c
+@@ -413,11 +413,6 @@ on_notify_buffer_cb (PlumaView  *view,
+                       "search_highlight_updated",
+                       G_CALLBACK (search_highlight_updated_cb),
+                       view);
+-
+-    /* We only activate the extensions when the right buffer is set,
+-     * because most plugins will expect this behaviour, and we won't
+-     * change the buffer later anyway. */
+-    peas_extension_set_call (view->priv->extensions, "activate", view);
+ }
+ 
+ #ifdef GTK_SOURCE_VERSION_3_24
+-- 
+2.39.2
+

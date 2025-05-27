@@ -1,0 +1,39 @@
+From f46395ba21cc7fd14e1679ee6c4bc1c5cda81355 Mon Sep 17 00:00:00 2001
+From: rbuj <robert.buj@gmail.com>
+Date: Sat, 23 Oct 2021 03:54:46 +0200
+Subject: [PATCH 1/3] pluma-plugins-engine: fix memory leak
+
+Signed-off-by: Mike Gabriel <mike.gabriel@das-netzwerkteam.de>
+---
+ pluma/pluma-plugins-engine.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/pluma/pluma-plugins-engine.c b/pluma/pluma-plugins-engine.c
+index cf76313..cb5e2c4 100644
+--- a/pluma/pluma-plugins-engine.c
++++ b/pluma/pluma-plugins-engine.c
+@@ -57,6 +57,7 @@ static void
+ pluma_plugins_engine_init (PlumaPluginsEngine *engine)
+ {
+ 	GError *error = NULL;
++	char *user_plugins_dir;
+ 
+ 	pluma_debug (DEBUG_PLUGINS);
+ 
+@@ -89,9 +90,11 @@ pluma_plugins_engine_init (PlumaPluginsEngine *engine)
+ 		g_clear_error (&error);
+ 	}
+ 
++	user_plugins_dir = pluma_dirs_get_user_plugins_dir ();
+ 	peas_engine_add_search_path (PEAS_ENGINE (engine),
+-	                             pluma_dirs_get_user_plugins_dir (),
+-	                             pluma_dirs_get_user_plugins_dir ());
++	                             user_plugins_dir,
++	                             user_plugins_dir);
++	g_free (user_plugins_dir);
+ 
+ 	peas_engine_add_search_path (PEAS_ENGINE (engine),
+ 	                             PLUMA_LIBDIR "/plugins",
+-- 
+2.39.2
+
